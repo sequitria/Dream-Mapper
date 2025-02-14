@@ -1,6 +1,6 @@
+import 'package:dream_mapper/components/date.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-
 
 class Calendar extends StatefulWidget {
   const Calendar({super.key});
@@ -53,7 +53,7 @@ class _CalendarState extends State<Calendar> {
       datesGrid = _generateDatesGrid(currentMonth);
     });
   }
-  
+
   String _monthName(int monthNumber) {
     return [
       'January',
@@ -71,7 +71,7 @@ class _CalendarState extends State<Calendar> {
     ][monthNumber - 1];
   }
 
-@override
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
@@ -117,18 +117,34 @@ class _CalendarState extends State<Calendar> {
             itemBuilder: (context, index) {
               DateTime date = datesGrid[index];
               bool isCurrentMonth = date.month == currentMonth.month;
-              return Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: CircleAvatar(
-                  backgroundColor: isCurrentMonth
-                      ? Colors.transparent
-                      : Colors.transparent,
-                  child: Text(
-                    date.day.toString(),
-                    style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 16,
-                      color: isCurrentMonth ? Colors.black : Colors.grey,
+              return GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Date(dateId: datesGrid[index]))
+                  );
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: CircleAvatar(
+                    backgroundColor: isCurrentMonth
+                        ? Colors.transparent
+                        : Colors.transparent,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.transparent,
+                      ),
+                      child: Center(
+                        child: Text(
+                          date.day.toString(),
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                            color: isCurrentMonth ? Colors.black : Colors.grey,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),

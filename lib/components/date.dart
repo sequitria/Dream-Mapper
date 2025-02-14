@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
 
-class Date extends StatelessWidget {
-  Date({super.key});
+class Date extends StatefulWidget {
 
-  late DateTime dateId;
+  final DateTime dateId;
+
+  const Date({
+    super.key,
+    required this.dateId
+  });
+  @override
+  State<Date> createState() => _DateState();
+}
+
+
+class _DateState extends State<Date> {
   late List<String> dreamList = [];
-
   // Add dream
   void addDream(String dream) {
     dreamList.add(dream);
@@ -18,6 +27,10 @@ class Date extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("${widget.dateId.year}/${widget.dateId.month}/${widget.dateId.day}" ),
+      ),
+    );
   }
 }
