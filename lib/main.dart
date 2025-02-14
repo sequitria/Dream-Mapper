@@ -1,3 +1,4 @@
+import 'package:dream_mapper/pages/home_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -7,14 +8,12 @@ void main() {
 class DreamMapper extends StatelessWidget {
   const DreamMapper({super.key});
 
+
   @override
   Widget build(BuildContext context) {
-    
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-
-      ),
+        debugShowCheckedModeBanner: false,
+        home: HomePage(),
     );
   }
 }
