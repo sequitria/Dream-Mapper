@@ -1,4 +1,3 @@
-import 'package:dream_mapper/components/calendar.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -15,7 +14,7 @@ class _HomePageState extends State<HomePage> {
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 20),
         margin: EdgeInsets.all(40),
-        child: Calendar()
+        child: Center(child: Text("HomePage"))
         ),
     );
   }
