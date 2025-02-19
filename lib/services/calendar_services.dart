@@ -61,6 +61,46 @@ class CalendarServices {
     firstAndLastDay.add(DateTime(date.year, date.month + 1, 0).weekday);
     return firstAndLastDay;
   }
+
+  // Returns a list of dates for the entire month grid, including padding days
+  List<DateTime> getMonthGrid(DateTime date) {
+    List<DateTime> days = [];
+
+    // Get first day of month
+    DateTime firstDay = DateTime(date.year, date.month, 1);
+
+    // Calculate padding days from previous month
+    int firstWeekday = firstDay.weekday;
+    if (firstWeekday != 1) {
+      // If not Monday, add padding
+      DateTime prevMonth = DateTime(date.year, date.month - 1);
+      int daysInPrevMonth = getMonthDays(prevMonth);
+      for (int i = firstWeekday - 2; i >= 0; i--) {
+        days.add(
+            DateTime(prevMonth.year, prevMonth.month, daysInPrevMonth - i));
+      }
+    }
+
+    // Add current month days
+    for (int day = 1; day <= getMonthDays(date); day++) {
+      days.add(DateTime(date.year, date.month, day));
+    }
+
+    // Add padding days for next month until we have a complete grid
+    int remainingDays;
+    if (days.length > 35) {
+      remainingDays = 42 - days.length; // 6 weeks × 7 days
+    } else{
+      remainingDays = 35 - days.length; // 5 weeks x 7 days
+    }
+      
+    DateTime nextMonth = DateTime(date.year, date.month + 1);
+    for (int day = 1; day <= remainingDays; day++) {
+      days.add(DateTime(nextMonth.year, nextMonth.month, day));
+    }
+
+    return days;
+  }
 }
 
 void main() {

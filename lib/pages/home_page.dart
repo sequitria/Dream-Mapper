@@ -13,9 +13,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[400],
-      body: Calendar(
-
-      ),
+      body: Calendar(),
     );
   }
 }

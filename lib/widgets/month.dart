@@ -1,40 +1,59 @@
 import 'package:dream_mapper/services/calendar_services.dart';
 import 'package:flutter/material.dart';
 
-class Month extends StatefulWidget {
-  final String monthId;
-  final String monthName;
-  final int numDays;
-  final List<int> firstAndLastWeekday;
+class Month extends StatelessWidget {
+  final DateTime displayMonth;
+  final VoidCallback? onNext;
+  final VoidCallback? onPrevious;
 
-  const Month(
-      {super.key,
-      required this.monthId,
-      required this.monthName,
-      required this.numDays,
-      required this.firstAndLastWeekday});
+  const Month({
+    super.key,
+    required this.displayMonth,
+    this.onNext,
+    this.onPrevious,
+  });
 
-  @override
-  State<Month> createState() => _MonthState();
-}
-
-class _MonthState extends State<Month> {
-  late CalendarServices calendarService = CalendarServices();
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 25.0),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              for (String day in calendarService.getWeekDays())
-                Text(day),
-            ],
-          )
-        ],
-      ),
+    final calendarService = CalendarServices();
+    final days = calendarService.getMonthGrid(displayMonth);
+
+    return Column(
+      children: [
+        // Calendar grid
+        Expanded(
+          child: GridView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 7,
+              mainAxisSpacing: 8,
+              crossAxisSpacing: 8,
+            ),
+            itemCount: days.length,
+            itemBuilder: (context, index) {
+              final day = days[index];
+              final isCurrentMonth = day.month == displayMonth.month;
+
+              return Container(
+                decoration: BoxDecoration(
+                  color: isCurrentMonth ? Colors.white : Colors.grey[200],
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Center(
+                  child: Text(
+                    day.day.toString(),
+                    style: TextStyle(
+                      color: isCurrentMonth ? Colors.black : Colors.grey,
+                      fontWeight:
+                          isCurrentMonth ? FontWeight.w500 : FontWeight.normal,
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+      ],
     );
   }
 }
