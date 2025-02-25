@@ -8,12 +8,12 @@ void main() {
 class DreamMapper extends StatelessWidget {
   const DreamMapper({super.key});
 
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: HomePage(),
+      // TODO: ESTABLISH THEME
+      debugShowCheckedModeBanner: false,
+      home: HomePage(),
     );
   }
 }

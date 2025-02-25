@@ -3,14 +3,9 @@ import 'package:flutter/material.dart';
 
 class Month extends StatelessWidget {
   final DateTime displayMonth;
-  final VoidCallback? onNext;
-  final VoidCallback? onPrevious;
-
   const Month({
     super.key,
     required this.displayMonth,
-    this.onNext,
-    this.onPrevious,
   });
 
   @override
@@ -37,7 +32,7 @@ class Month extends StatelessWidget {
               return Container(
                 decoration: BoxDecoration(
                   color: isCurrentMonth ? Colors.white : Colors.grey[200],
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(4),
                 ),
                 child: Center(
                   child: Text(
