@@ -1,13 +1,23 @@
 import 'dart:async';
-
 import 'package:dream_mapper/models/dream_tag.dart';
 import 'package:dream_mapper/models/journal.dart';
 import 'package:dream_mapper/models/map_tag.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 
+// Singleton Class -> to manage global state (avoids multiple initialisations of Isar)
 class JournalServices {
   static late Isar isar;
+
+  static final JournalServices _instance = JournalServices._internal();
+
+  // factory constructor returns the same instance every time JournalService is called
+  factory JournalServices() {
+    return _instance;
+  }
+
+  // Private constructor
+  JournalServices._internal();
 
   // INITIALIZE - DB
   static Future<void> initialize() async {
