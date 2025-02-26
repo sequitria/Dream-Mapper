@@ -106,7 +106,7 @@ P _dreamTagDeserializeProp<P>(
 }
 
 Id _dreamTagGetId(DreamTag object) {
-  return object.id ?? Isar.autoIncrement;
+  return object.id;
 }
 
 List<IsarLinkBase<dynamic>> _dreamTagGetLinks(DreamTag object) {
@@ -293,23 +293,7 @@ extension DreamTagQueryWhere on QueryBuilder<DreamTag, DreamTag, QWhereClause> {
 
 extension DreamTagQueryFilter
     on QueryBuilder<DreamTag, DreamTag, QFilterCondition> {
-  QueryBuilder<DreamTag, DreamTag, QAfterFilterCondition> idIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'id',
-      ));
-    });
-  }
-
-  QueryBuilder<DreamTag, DreamTag, QAfterFilterCondition> idIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'id',
-      ));
-    });
-  }
-
-  QueryBuilder<DreamTag, DreamTag, QAfterFilterCondition> idEqualTo(Id? value) {
+  QueryBuilder<DreamTag, DreamTag, QAfterFilterCondition> idEqualTo(Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'id',
@@ -319,7 +303,7 @@ extension DreamTagQueryFilter
   }
 
   QueryBuilder<DreamTag, DreamTag, QAfterFilterCondition> idGreaterThan(
-    Id? value, {
+    Id value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -332,7 +316,7 @@ extension DreamTagQueryFilter
   }
 
   QueryBuilder<DreamTag, DreamTag, QAfterFilterCondition> idLessThan(
-    Id? value, {
+    Id value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -345,8 +329,8 @@ extension DreamTagQueryFilter
   }
 
   QueryBuilder<DreamTag, DreamTag, QAfterFilterCondition> idBetween(
-    Id? lower,
-    Id? upper, {
+    Id lower,
+    Id upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {

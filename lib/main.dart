@@ -1,6 +1,7 @@
 import 'package:dream_mapper/pages/home_page.dart';
 import 'package:dream_mapper/services/journal_services.dart';
 import 'package:flutter/material.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 void main() async {
   // Ensures DB is initialised at startup
@@ -16,9 +17,19 @@ class DreamMapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      // TODO: ESTABLISH THEME
-      debugShowCheckedModeBanner: false,
+    return ShadApp.material(
+      // You can customize the theme if needed
+
+      darkTheme: ShadThemeData(
+        brightness: Brightness.dark,
+        colorScheme: const ShadSlateColorScheme.dark(
+        ),
+      ),
+      // If you want to respect system theme:
+      // themeMode: ThemeMode.system,
+
+
+      title: 'Dream Mapper',
       home: HomePage(),
     );
   }

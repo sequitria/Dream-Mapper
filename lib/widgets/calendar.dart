@@ -38,8 +38,7 @@ class _CalendarState extends State<Calendar> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
+    return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25),
         child: SafeArea(
           child: Column(
@@ -74,7 +73,7 @@ class _CalendarState extends State<Calendar> {
                             day,
                             style: const TextStyle(
                               fontWeight: FontWeight.w500,
-                              color: Color.fromARGB(255, 96, 63, 63),
+                              //color: Color.fromARGB(255, 96, 63, 63),
                             ),
                             textAlign: TextAlign.center,
                           ),
@@ -105,7 +104,6 @@ class _CalendarState extends State<Calendar> {
             ],
           ),
         ),
-      ),
     );
   }
 

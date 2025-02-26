@@ -106,7 +106,7 @@ P _mapTagDeserializeProp<P>(
 }
 
 Id _mapTagGetId(MapTag object) {
-  return object.id ?? Isar.autoIncrement;
+  return object.id;
 }
 
 List<IsarLinkBase<dynamic>> _mapTagGetLinks(MapTag object) {
@@ -291,23 +291,7 @@ extension MapTagQueryWhere on QueryBuilder<MapTag, MapTag, QWhereClause> {
 }
 
 extension MapTagQueryFilter on QueryBuilder<MapTag, MapTag, QFilterCondition> {
-  QueryBuilder<MapTag, MapTag, QAfterFilterCondition> idIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'id',
-      ));
-    });
-  }
-
-  QueryBuilder<MapTag, MapTag, QAfterFilterCondition> idIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'id',
-      ));
-    });
-  }
-
-  QueryBuilder<MapTag, MapTag, QAfterFilterCondition> idEqualTo(Id? value) {
+  QueryBuilder<MapTag, MapTag, QAfterFilterCondition> idEqualTo(Id value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'id',
@@ -317,7 +301,7 @@ extension MapTagQueryFilter on QueryBuilder<MapTag, MapTag, QFilterCondition> {
   }
 
   QueryBuilder<MapTag, MapTag, QAfterFilterCondition> idGreaterThan(
-    Id? value, {
+    Id value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -330,7 +314,7 @@ extension MapTagQueryFilter on QueryBuilder<MapTag, MapTag, QFilterCondition> {
   }
 
   QueryBuilder<MapTag, MapTag, QAfterFilterCondition> idLessThan(
-    Id? value, {
+    Id value, {
     bool include = false,
   }) {
     return QueryBuilder.apply(this, (query) {
@@ -343,8 +327,8 @@ extension MapTagQueryFilter on QueryBuilder<MapTag, MapTag, QFilterCondition> {
   }
 
   QueryBuilder<MapTag, MapTag, QAfterFilterCondition> idBetween(
-    Id? lower,
-    Id? upper, {
+    Id lower,
+    Id upper, {
     bool includeLower = true,
     bool includeUpper = true,
   }) {

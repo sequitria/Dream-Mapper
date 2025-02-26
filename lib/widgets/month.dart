@@ -31,7 +31,7 @@ class Month extends StatelessWidget {
 
               return Container(
                 decoration: BoxDecoration(
-                  color: isCurrentMonth ? Colors.white : Colors.grey[200],
+                  //color: isCurrentMonth ? Colors.white : Colors.grey[200],
                   borderRadius: BorderRadius.circular(4),
                 ),
                 child: Center(

@@ -5,7 +5,7 @@ part 'dream_tag.g.dart';
 
 @Collection()
 class DreamTag {
-  Id? id;
+  Id id = Isar.autoIncrement;
 
   @Index(unique: true)
   late String name;

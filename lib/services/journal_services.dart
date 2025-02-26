@@ -4,6 +4,7 @@ import 'package:dream_mapper/models/journal.dart';
 import 'package:dream_mapper/models/map_tag.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
+//import 'package:collection/collection.dart';
 
 // Singleton Class -> to manage global state (avoids multiple initialisations of Isar)
 class JournalServices {
@@ -53,6 +54,20 @@ class JournalServices {
         .filter()
         .dateBetween(startOfDay, endOfDay)
         .findAll();
+  }
+
+  // READ - Get all journals
+  Future<List<Journal>> getAllJournals() async {
+    final journalList =
+        await isar.journals.filter().dateLessThan(DateTime.now()).findAll();
+        // Returns journals in id order -> greatest to least
+    return journalList;
+  }
+
+  Future<Journal?> getNewestJournal() async {
+    final journalList = await getAllJournals();
+    // Greatest ID will be FIRST as the previous function sorts id from greatest to least
+    return journalList.isNotEmpty ? journalList.first : null;
   }
 
   // READ - Get a specific journal by ID

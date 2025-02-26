@@ -5,7 +5,7 @@ part 'map_tag.g.dart';
 
 @Collection()
 class MapTag {
-  Id? id;
+  Id id = Isar.autoIncrement;
 
   @Index(unique: true)
   late String name;
