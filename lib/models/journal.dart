@@ -13,12 +13,12 @@ class Journal {
 
   // Dream content
   late String dreamDescription;
-  late double? dreamVividnessScore;
-  late String? dominantSense;
-  late String? lucidityLevel; // How concious was it?
+  double? dreamVividnessScore;
+  String? dominantSense;
+  String? lucidityLevel; // How concious was it?
 
   // Map content
-  late String? mapDescription;
+  String? mapDescription;
 
   // Tags (using links for many-to-many relationships)
   final dreamTags = IsarLinks<DreamTag>();

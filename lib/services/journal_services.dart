@@ -26,6 +26,7 @@ class JournalServices {
     isar = await Isar.open(
       [JournalSchema, DreamTagSchema, MapTagSchema],
       directory: dir.path,
+      inspector: true, // Useful for debugging
     );
   }
 
@@ -34,9 +35,10 @@ class JournalServices {
     final journal = Journal()
       ..date = date
       ..dreamDescription = '' // Starts with empty description
+      ..mapDescription = ''
       ..createdAt = DateTime.now()
       ..updatedAt = DateTime.now();
-
+      
     await isar.writeTxn(() async {
       journal.id = await isar.journals.put(journal);
     });
@@ -75,6 +77,18 @@ class JournalServices {
     return await isar.journals.get(id);
   }
 
+  // UPDATE - Update journal date
+  Future<void> updateJournalDate(int journalId, DateTime newDate) async {
+    await isar.writeTxn(() async {
+      final journal = await isar.journals.get(journalId);
+      if (journal != null) {
+        journal.date = newDate;
+        journal.updatedAt = DateTime.now();
+        await isar.journals.put(journal);
+      }
+    });
+  }
+
   // UPDATE - Update dream description
   Future<void> updateDreamDescription(
       int journalId, String dreamDescription) async {
@@ -82,7 +96,7 @@ class JournalServices {
       final journal = await isar.journals.get(journalId);
       if (journal != null) {
         journal.dreamDescription =
-            dreamDescription; //TODO: TEST IF THIS WILL DELETE THE WHOLE DESCRIPTION
+            dreamDescription; 
         journal.updatedAt = DateTime.now();
         await isar.journals.put(journal);
       }
@@ -96,7 +110,7 @@ class JournalServices {
       final journal = await isar.journals.get(journalId);
       if (journal != null) {
         journal.mapDescription =
-            mapDescription; //TODO: TEST IF THIS WILL DELETE THE WHOLE DESCRIPTION
+            mapDescription; 
         journal.updatedAt = DateTime.now();
         await isar.journals.put(journal);
       }

@@ -16,8 +16,8 @@ import 'package:line_icons/line_icons.dart';
 Route _createRoute() {
   return PageRouteBuilder(
     opaque: false,
-    pageBuilder: (context, animation, secondaryAnimation) => CreateJournalPage(),
-
+    pageBuilder: (context, animation, secondaryAnimation) =>
+        CreateJournalPage(),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       return FadeTransition(
         opacity: animation,
@@ -28,12 +28,9 @@ Route _createRoute() {
 }
 
 class FloatingButtons extends StatelessWidget {
-  final JournalServices _journalService = JournalServices();
-
   
-
-
   FloatingButtons({super.key});
+  final JournalServices _journalService = JournalServices();
 
   @override
   Widget build(BuildContext context) {
@@ -55,9 +52,9 @@ class FloatingButtons extends StatelessWidget {
         FloatingActionButton.small(
           heroTag: 'create_journal_button',
           child: const Icon(LineIcons.feather),
-          onPressed: () async {
-            Navigator.of(context)
-                .push(_createRoute());
+          onPressed: () {
+            // Just navigate to the page, let the page create the journal
+            Navigator.of(context).push(_createRoute());
           },
         )
       ],
