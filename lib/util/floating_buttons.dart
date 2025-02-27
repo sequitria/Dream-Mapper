@@ -1,5 +1,4 @@
 import 'package:dream_mapper/pages/create_journal_page.dart';
-import 'package:dream_mapper/services/journal_services.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 
@@ -29,8 +28,7 @@ Route _createRoute() {
 
 class FloatingButtons extends StatelessWidget {
   
-  FloatingButtons({super.key});
-  final JournalServices _journalService = JournalServices();
+  const FloatingButtons({super.key});
 
   @override
   Widget build(BuildContext context) {

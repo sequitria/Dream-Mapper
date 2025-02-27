@@ -1,7 +1,6 @@
 import 'package:dream_mapper/pages/home_page.dart';
 import 'package:dream_mapper/services/journal_services.dart';
 import 'package:flutter/material.dart';
-import 'package:shadcn_ui/shadcn_ui.dart';
 
 void main() async {
   // Ensures DB is initialised at startup
@@ -17,19 +16,94 @@ class DreamMapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ShadApp.material(
-      // You can customize the theme if needed
-
-      darkTheme: ShadThemeData(
-        brightness: Brightness.dark,
-        colorScheme: const ShadSlateColorScheme.dark(
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Dream Mapper',
+      // Light theme (white background, black text and elements)
+      theme: ThemeData(
+        useMaterial3: true,
+        brightness: Brightness.light,
+        colorScheme: const ColorScheme.light(
+          // Primary colors
+          primary: Colors.black, // Main brand color
+          onPrimary: Colors.white, // Text/icons on primary color
+          // Surface colors (cards, sheets, etc.)
+          surface: Colors.white,
+          onSurface: Colors.black,
+          // Error colors (keep red for errors)
+          error: Colors.red,
+          onError: Colors.white,
+        ),
+        // Making buttons consistently black
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.black,
+            foregroundColor: Colors.white,
+          ),
+        ),
+        // Making text buttons black
+        textButtonTheme: TextButtonThemeData(
+          style: TextButton.styleFrom(
+            foregroundColor: Colors.black,
+          ),
+        ),
+        // Making icon buttons black
+        iconButtonTheme: IconButtonThemeData(
+          style: IconButton.styleFrom(
+            foregroundColor: Colors.black,
+          ),
+        ),
+        // Making icons black by default
+        iconTheme: const IconThemeData(
+          color: Colors.black,
         ),
       ),
-      // If you want to respect system theme:
-      // themeMode: ThemeMode.system,
 
+      // Dark theme (black background, white text and elements)
+      darkTheme: ThemeData(
+        useMaterial3: true,
+        brightness: Brightness.dark,
+        colorScheme: const ColorScheme.dark(
+          // Primary colors
+          primary: Colors.white, // Main brand color
+          onPrimary: Colors.black, // Text/icons on primary color
+          // Surface colors (cards, sheets, etc.)
+          surface: Colors.black,
+          onSurface: Colors.white,
+          // Error colors (keep red for errors)
+          error: Colors.red,
+          onError: Colors.white,
+          // Making cards slightly off-black for better distinction
+          surfaceContainerHighest: Color(0xFF121212),
+        ),
+        // Making buttons consistently white
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.white,
+            foregroundColor: Colors.black,
+          ),
+        ),
+        // Making text buttons white
+        textButtonTheme: TextButtonThemeData(
+          style: TextButton.styleFrom(
+            foregroundColor: Colors.white,
+          ),
+        ),
+        // Making icon buttons white
+        iconButtonTheme: IconButtonThemeData(
+          style: IconButton.styleFrom(
+            foregroundColor: Colors.white,
+          ),
+        ),
+        // Making icons white by default
+        iconTheme: const IconThemeData(
+          color: Colors.white,
+        ),
+      ),
 
-      title: 'Dream Mapper',
+      // Default to dark theme regardless of system settings
+      themeMode: ThemeMode.dark,
+
       home: HomePage(),
     );
   }

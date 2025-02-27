@@ -10,6 +10,7 @@ class Month extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final calendarService = CalendarServices();
     final days = calendarService.getMonthGrid(displayMonth);
 
@@ -38,7 +39,7 @@ class Month extends StatelessWidget {
                   child: Text(
                     day.day.toString(),
                     style: TextStyle(
-                      color: isCurrentMonth ? Colors.black : Colors.grey,
+                      color: isCurrentMonth ? theme.colorScheme.primary : Colors.grey,
                       fontWeight:
                           isCurrentMonth ? FontWeight.w500 : FontWeight.normal,
                     ),

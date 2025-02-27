@@ -68,7 +68,9 @@ class _CreateJournalPageState extends State<CreateJournalPage> {
                 icon: const Icon(Icons.close, color: Colors.white),
                 onPressed: () async {
                   await _controller.deleteIfEmpty();
-                  Navigator.of(context).pop();
+                  if (context.mounted){
+                    Navigator.of(context).pop();
+                  }
                 },
               ),
               actions: [
