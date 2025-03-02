@@ -12,6 +12,9 @@ class SingleDatePicker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final theme = Theme.of(context);
+
     return ValueListenableBuilder<DateTime>(
       valueListenable: dateNotifier,
       builder: (context, date, child) {
@@ -49,19 +52,38 @@ class SingleDatePicker extends StatelessWidget {
               }
             },
             child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+              padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
               decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey.shade300),
+                color: Color.fromARGB(255, 15, 14, 14),
+                //border: Border.all(color: Colors.grey.shade300),
                 borderRadius: BorderRadius.circular(8),
+                boxShadow: [
+                    BoxShadow(
+                      color: const Color.fromARGB(140, 35, 35, 35),
+                      offset: Offset(-4, -4),
+                      blurRadius: 5,
+                      //spreadRadius: 2
+                    ),
+                    BoxShadow(
+                      color: const Color.fromARGB(255, 0, 0, 0),
+                      offset: Offset(4, 4),
+                      blurRadius: 5,
+                      spreadRadius: 1
+                    ),
+                ],
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     "${date.day}/${date.month}/${date.year}",
-                    style: TextStyle(fontSize: 16),
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: theme.colorScheme.onSurface
+                    ),
                   ),
-                  Icon(Icons.calendar_today, color: Colors.grey.shade600),
+                  Icon(Icons.calendar_today, color: theme.colorScheme.primary),
                 ],
               ),
             ),

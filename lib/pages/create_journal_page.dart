@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:dream_mapper/services/journal_editing_controller.dart';
 import 'package:dream_mapper/services/journal_services.dart';
 import 'package:dream_mapper/util/single_date_picker.dart';
+import 'package:dream_mapper/util/sunken_text_field.dart';
 import 'package:dream_mapper/util/tag_housing.dart';
 import 'package:dream_mapper/util/ultra_spacer.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +17,7 @@ class CreateJournalPage extends StatefulWidget {
 
 class _CreateJournalPageState extends State<CreateJournalPage> {
   late JournalEditingController _controller;
+  
 
   @override
   void initState() {
@@ -31,6 +33,8 @@ class _CreateJournalPageState extends State<CreateJournalPage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return PopScope(
       canPop: true, // Added comma here
       onPopInvokedWithResult: (bool didPop, dynamic result) {
@@ -40,7 +44,7 @@ class _CreateJournalPageState extends State<CreateJournalPage> {
           _controller.deleteIfEmpty();
         }
       },
-    
+
       child: Stack(
         children: [
           // Backdrop with blur effect
@@ -55,20 +59,20 @@ class _CreateJournalPageState extends State<CreateJournalPage> {
 
           // Main content
           Scaffold(
-            backgroundColor: Colors.transparent,
+            backgroundColor: const Color.fromARGB(255, 15, 14, 14),
             appBar: AppBar(
               backgroundColor: Colors.transparent,
               elevation: 0,
               surfaceTintColor: Colors.transparent,
               title: Text(
                 'New Journal',
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: theme.colorScheme.primary),
               ),
               leading: IconButton(
-                icon: const Icon(Icons.close, color: Colors.white),
+                icon: Icon(Icons.close, color: theme.colorScheme.primary),
                 onPressed: () async {
                   await _controller.deleteIfEmpty();
-                  if (context.mounted){
+                  if (context.mounted) {
                     Navigator.of(context).pop();
                   }
                 },
@@ -86,7 +90,7 @@ class _CreateJournalPageState extends State<CreateJournalPage> {
                               height: 16,
                               child: CircularProgressIndicator(
                                 strokeWidth: 2,
-                                color: Colors.white,
+                                color: theme.colorScheme.primary,
                               ),
                             ),
                           )
@@ -100,60 +104,46 @@ class _CreateJournalPageState extends State<CreateJournalPage> {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    // Date picker (you'll need to connect this to the controller)
+                    SizedBox(height: 15),
+                    // Date Picker
                     SingleDatePicker(
                       dateNotifier: _controller.journalDate,
                       onDateChanged: (newDate) {
                         _controller.updateDate(newDate);
                       },
                     ),
-                    UltraSpacer(),
+
+                    SizedBox(height: 40),
 
                     // Dream description - connect to controller
-                    TextField(
+                    SunkenTextField(
                       controller: _controller.dreamController,
-                      style: TextStyle(color: Colors.white),
-                      decoration: InputDecoration(
-                        labelText: "Dream Description",
-                        labelStyle: TextStyle(color: Colors.white),
-                        hintText: "Describe your dream experience...",
-                        hintStyle: TextStyle(color: Colors.grey[500]),
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.black, width: 4),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.black, width: 3),
-                        ),
-                      ),
+                      labelText: "Dream Description",
+                      hintText: "Describe your dream experience...",
                       minLines: 5,
                       maxLines: null,
+                      backgroundColor: Color(0xFF121212), // Very dark gray
+                      textColor: Colors.white,
                     ),
 
-                    UltraSpacer(),
+                    
+
+                    SizedBox(height: 40),
                     TagHousing(tagHouseName: "Dream Tags"),
-                    UltraSpacer(),
+                    SizedBox(height: 40),
 
-                    // Map description - connect to controller
-                    TextField(
+                    SunkenTextField(
                       controller: _controller.mapController,
-                      style: TextStyle(color: Colors.white),
-                      decoration: InputDecoration(
-                        labelText: "Map Description",
-                        labelStyle: TextStyle(color: Colors.white),
-                        hintText: "Describe your map experience...",
-                        hintStyle: TextStyle(color: Colors.grey[500]),
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.black, width: 4),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.black, width: 3),
-                        ),
-                      ),
+                      labelText: "Map Description",
+                      hintText: "Describe your map experience...",
                       minLines: 5,
                       maxLines: null,
+                      backgroundColor: Color(0xFF121212), // Very dark gray
+                      textColor: Colors.white,
                     ),
 
-                    UltraSpacer(),
+
+                    SizedBox(height: 40),
                     TagHousing(tagHouseName: "Map Tags"),
                     SizedBox(height: 100),
                   ],

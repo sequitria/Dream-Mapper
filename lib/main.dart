@@ -68,7 +68,7 @@ class DreamMapper extends StatelessWidget {
           primary: Colors.white, // Main brand color
           onPrimary: Colors.black, // Text/icons on primary color
           // Surface colors (cards, sheets, etc.)
-          surface: Colors.black,
+          surface:  Color.fromARGB(255, 15, 14, 14),
           onSurface: Colors.white,
           // Error colors (keep red for errors)
           error: Colors.red,
