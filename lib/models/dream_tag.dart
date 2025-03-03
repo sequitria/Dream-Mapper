@@ -8,13 +8,21 @@ class DreamTag {
   Id id = Isar.autoIncrement;
 
   @Index(unique: true)
-  late String name;
+  late String _name;
+
+  // Enforce lower case only
+  String get name => _name;
+
+  set name(String value) => _name = value.toLowerCase();
 
   // Backlinking to the journals that use this tag
   @Backlink(to: 'dreamTags')
   final dreams = IsarLinks<Journal>();
 
-  //TODO: ADD A DESCRIPTION
+  // Tag description
+  String? description;
 
-  DreamTag({required this.name});
+  DreamTag({required String name}) {
+    this.name = name;
+  }
 }

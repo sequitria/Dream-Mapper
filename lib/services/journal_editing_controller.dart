@@ -13,11 +13,14 @@ class JournalEditingController {
   // Text controllers
   final TextEditingController dreamController = TextEditingController();
   final TextEditingController mapController = TextEditingController();
+  final TextEditingController titleController = TextEditingController();
 
   // State notifiers
   final ValueNotifier<bool> isSaving = ValueNotifier<bool>(false);
   final ValueNotifier<DateTime> journalDate =
       ValueNotifier<DateTime>(DateTime.now());
+  final ValueNotifier<String> appBarTitle =
+      ValueNotifier<String>('New Dream Journal');
 
   // Timer for debounce saves
   Timer? _saveDebounceTimer;
@@ -27,6 +30,7 @@ class JournalEditingController {
     // Set Listeners
     dreamController.addListener(_onDreamTextChanged);
     mapController.addListener(_onMapTextChanged);
+    titleController.addListener(_onTitleTextChanged);
   }
 
   // Initialise with new journal
@@ -49,6 +53,7 @@ class JournalEditingController {
       // Set controllers WITHOUT triggering listeners
       dreamController.removeListener(_onDreamTextChanged);
       mapController.removeListener(_onMapTextChanged);
+      titleController.removeListener(_onTitleTextChanged);
 
       dreamController.text = _currentJournal!.dreamDescription;
       mapController.text = _currentJournal!.mapDescription ?? '';
@@ -56,7 +61,25 @@ class JournalEditingController {
       // Reattach listeners
       dreamController.addListener(_onDreamTextChanged);
       mapController.addListener(_onMapTextChanged);
+      titleController.addListener(_onTitleTextChanged);
     }
+  }
+
+  // Handle title text changes
+  void _onTitleTextChanged() {
+    _debounceSave(() {
+      if (_currentJournal != null) {
+        _journalService.updateDreamDescription(
+            _currentJournal!.id, titleController.text);
+
+        // Change the value of the app bar title notifier
+        if (titleController.text.trim().isNotEmpty) {
+          appBarTitle.value = titleController.text;
+        } else {
+          appBarTitle.value = "New Dream Journal";
+        }
+      }
+    });
   }
 
   // Handle dream text changes
@@ -80,7 +103,7 @@ class JournalEditingController {
   }
 
   // Update the journal date
-Future<void> updateDate(DateTime newDate) async {
+  Future<void> updateDate(DateTime newDate) async {
     if (_currentJournal != null && newDate != journalDate.value) {
       journalDate.value = newDate;
 
@@ -88,7 +111,7 @@ Future<void> updateDate(DateTime newDate) async {
       _currentJournal!.date = newDate;
       _currentJournal!.updatedAt = DateTime.now();
 
-      // Persist to database 
+      // Persist to database
       await _journalService.updateJournalDate(_currentJournal!.id, newDate);
     }
   }
@@ -132,10 +155,13 @@ Future<void> updateDate(DateTime newDate) async {
   // Clean up resources
   void dispose() {
     _saveDebounceTimer?.cancel();
+    titleController.removeListener(_onTitleTextChanged);
     dreamController.removeListener(_onDreamTextChanged);
     mapController.removeListener(_onMapTextChanged);
+    titleController.dispose();
     dreamController.dispose();
     mapController.dispose();
+    appBarTitle.dispose();
     isSaving.dispose();
     journalDate.dispose();
   }

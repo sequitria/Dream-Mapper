@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 
 class SunkenTextField extends StatelessWidget {
@@ -23,7 +24,7 @@ class SunkenTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: BorderRadius.circular(8),
       child: Container(
         // Use a very subtle shadow inside with an overlay
         decoration: BoxDecoration(
@@ -86,14 +87,15 @@ class SunkenTextField extends StatelessWidget {
               bottom: 0,
               left: 0,
               right: 0,
-              height: 6,
+              height: 8,
               child: Container(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.bottomCenter,
                     end: Alignment.topCenter,
                     colors: [
-                      Colors.white.withValues(alpha: 0.06),
+                      const Color.fromARGB(255, 255, 255, 255)
+                          .withValues(alpha: 0.06),
                       Colors.transparent,
                     ],
                   ),
@@ -106,14 +108,15 @@ class SunkenTextField extends StatelessWidget {
               top: 0,
               right: 0,
               bottom: 0,
-              width: 6,
+              width: 8,
               child: Container(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.centerRight,
                     end: Alignment.centerLeft,
                     colors: [
-                      Colors.white.withValues(alpha: 0.06),
+                      Color.fromARGB(255, 255, 255, 255)
+                          .withValues(alpha: 0.06),
                       Colors.transparent,
                     ],
                   ),

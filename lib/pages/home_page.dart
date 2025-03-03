@@ -15,7 +15,11 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       //backgroundColor: const Color.fromARGB(221, 26, 2, 2),
-      body: Calendar(),
+      body: Column(
+        children: [
+          Expanded(child: Calendar()),
+        ],
+      ),
       // Make a journal viewer
         
       floatingActionButton: FloatingButtons(),

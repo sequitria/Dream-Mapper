@@ -8,6 +8,9 @@ part 'journal.g.dart';
 class Journal {
   Id id = Isar.autoIncrement;
 
+  // Title
+  late String journalTitle;
+
   // Date reference
   late DateTime date;
 

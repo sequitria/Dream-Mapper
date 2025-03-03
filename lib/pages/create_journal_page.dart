@@ -5,7 +5,6 @@ import 'package:dream_mapper/services/journal_services.dart';
 import 'package:dream_mapper/util/single_date_picker.dart';
 import 'package:dream_mapper/util/sunken_text_field.dart';
 import 'package:dream_mapper/util/tag_housing.dart';
-import 'package:dream_mapper/util/ultra_spacer.dart';
 import 'package:flutter/material.dart';
 
 class CreateJournalPage extends StatefulWidget {
@@ -17,7 +16,6 @@ class CreateJournalPage extends StatefulWidget {
 
 class _CreateJournalPageState extends State<CreateJournalPage> {
   late JournalEditingController _controller;
-  
 
   @override
   void initState() {
@@ -64,9 +62,15 @@ class _CreateJournalPageState extends State<CreateJournalPage> {
               backgroundColor: Colors.transparent,
               elevation: 0,
               surfaceTintColor: Colors.transparent,
-              title: Text(
-                'New Journal',
-                style: TextStyle(color: theme.colorScheme.primary),
+              title: ValueListenableBuilder(
+                valueListenable: _controller.appBarTitle,
+                builder: (context, value, child) {
+                return
+                  Text(
+                    value,
+                    style: TextStyle(color: theme.colorScheme.primary),
+                  );
+                },
               ),
               leading: IconButton(
                 icon: Icon(Icons.close, color: theme.colorScheme.primary),
@@ -99,9 +103,9 @@ class _CreateJournalPageState extends State<CreateJournalPage> {
                 ),
               ],
             ),
-            body: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: SingleChildScrollView(
+            body: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: Column(
                   children: [
                     SizedBox(height: 15),
@@ -111,6 +115,18 @@ class _CreateJournalPageState extends State<CreateJournalPage> {
                       onDateChanged: (newDate) {
                         _controller.updateDate(newDate);
                       },
+                    ),
+
+                    SizedBox(height: 20),
+
+                    SunkenTextField(
+                      controller: _controller.titleController,
+                      labelText: "Title",
+                      hintText: "Make this title memorable ;)",
+                      minLines: 1,
+                      maxLines: null,
+                      backgroundColor: Color(0xFF121212), // Very dark gray
+                      textColor: Colors.white,
                     ),
 
                     SizedBox(height: 40),
@@ -126,8 +142,6 @@ class _CreateJournalPageState extends State<CreateJournalPage> {
                       textColor: Colors.white,
                     ),
 
-                    
-
                     SizedBox(height: 40),
                     TagHousing(tagHouseName: "Dream Tags"),
                     SizedBox(height: 40),
@@ -141,7 +155,6 @@ class _CreateJournalPageState extends State<CreateJournalPage> {
                       backgroundColor: Color(0xFF121212), // Very dark gray
                       textColor: Colors.white,
                     ),
-
 
                     SizedBox(height: 40),
                     TagHousing(tagHouseName: "Map Tags"),

@@ -34,11 +34,12 @@ class JournalServices {
   Future<Journal> createJournal(DateTime date) async {
     final journal = Journal()
       ..date = date
+      ..journalTitle = ''
       ..dreamDescription = '' // Starts with empty description
       ..mapDescription = ''
       ..createdAt = DateTime.now()
       ..updatedAt = DateTime.now();
-      
+
     await isar.writeTxn(() async {
       journal.id = await isar.journals.put(journal);
     });
@@ -62,7 +63,7 @@ class JournalServices {
   Future<List<Journal>> getAllJournals() async {
     final journalList =
         await isar.journals.filter().dateLessThan(DateTime.now()).findAll();
-        // Returns journals in id order -> greatest to least
+    // Returns journals in id order -> greatest to least
     return journalList;
   }
 
@@ -95,8 +96,7 @@ class JournalServices {
     await isar.writeTxn(() async {
       final journal = await isar.journals.get(journalId);
       if (journal != null) {
-        journal.dreamDescription =
-            dreamDescription; 
+        journal.dreamDescription = dreamDescription;
         journal.updatedAt = DateTime.now();
         await isar.journals.put(journal);
       }
@@ -109,8 +109,7 @@ class JournalServices {
     await isar.writeTxn(() async {
       final journal = await isar.journals.get(journalId);
       if (journal != null) {
-        journal.mapDescription =
-            mapDescription; 
+        journal.mapDescription = mapDescription;
         journal.updatedAt = DateTime.now();
         await isar.journals.put(journal);
       }
@@ -131,8 +130,34 @@ class JournalServices {
 
   // TODO: UPDATE DOMINANT SENSE AND LUCIDITY LEVEL
 
-  // UPDATE - Add a dream tag
-  Future<void> addDreamTag(int journalId, String tagName) async {
+  // CREATE - Simply add a dream tag with no connections
+  Future<void> addDreamTag(String tagName) async {
+    await isar.writeTxn(() async {
+      // Check if tag already exists
+      final existingTag =
+          await isar.dreamTags.filter().nameEqualTo(tagName).findFirst();
+
+      if (existingTag == null) {
+        final dreamTag = DreamTag(name: tagName);
+        await isar.dreamTags.put(dreamTag);
+      }
+    });
+  }
+
+  // CREATE - Simply add a map tag with no connections
+  Future<void> addMapTag(String tagName) async {
+    await isar.writeTxn(() async {
+      final existingTag =
+          await isar.dreamTags.filter().nameEqualTo(tagName).findFirst();
+      if (existingTag == null) {
+        final dreamTag = DreamTag(name: tagName);
+        await isar.dreamTags.put(dreamTag);
+      }
+    });
+  }
+
+  // CREATE - Add a dream tag to dream
+  Future<void> addDreamTagToDream(int journalId, String tagName) async {
     await isar.writeTxn(() async {
       // Get or create the tag
       DreamTag? tag =
@@ -153,8 +178,8 @@ class JournalServices {
     });
   }
 
-  // UPDATE - Add a map tag
-  Future<void> addMapTag(int journalId, String tagName) async {
+  // CREATE - Add a map tag to a map
+  Future<void> addMapTagToMap(int journalId, String tagName) async {
     await isar.writeTxn(() async {
       // Get or create the tag
       MapTag? tag =
