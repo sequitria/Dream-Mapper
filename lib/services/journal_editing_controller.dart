@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:dream_mapper/models/dream_tag.dart';
 import 'package:dream_mapper/models/journal.dart';
+import 'package:dream_mapper/models/map_tag.dart';
 import 'package:dream_mapper/services/journal_services.dart';
 import 'package:flutter/material.dart';
 
@@ -69,7 +71,7 @@ class JournalEditingController {
   void _onTitleTextChanged() {
     _debounceSave(() {
       if (_currentJournal != null) {
-        _journalService.updateDreamDescription(
+        _journalService.updateJournalTitle(
             _currentJournal!.id, titleController.text);
 
         // Change the value of the app bar title notifier
@@ -164,5 +166,31 @@ class JournalEditingController {
     appBarTitle.dispose();
     isSaving.dispose();
     journalDate.dispose();
+  }
+
+  // TAG STUFF
+
+  void addDreamTagToJournal(String tagName) async {
+    await _journalService.addDreamTagToDream(_currentJournal!.id, tagName);
+  }
+
+  void addMapTagToJournal(String tagName) async {
+    await _journalService.addMapTagToMap(_currentJournal!.id, tagName);
+  }
+
+  // Future<List<DreamTag>> getDreamTags() async {
+  //   return await _journalService.getAllDreamTags(_currentJournal!.id);
+  // }
+
+  // Get dream tags for a single journal
+  List<DreamTag> getDreamTags() {
+    _journalService.getAllDreamTags(_currentJournal!.id).then((data) {
+      return data;
+    });
+    return [];
+  }
+
+  Future<List<MapTag>> getMapTags() async {
+    return await _journalService.getAllMapTags(_currentJournal!.id);
   }
 }

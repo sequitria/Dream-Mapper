@@ -24,7 +24,7 @@ class SunkenTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(8),
+      borderRadius: BorderRadius.circular(12),
       child: Container(
         // Use a very subtle shadow inside with an overlay
         decoration: BoxDecoration(
@@ -47,7 +47,7 @@ class SunkenTextField extends StatelessWidget {
               top: 0,
               left: 0,
               right: 0,
-              height: 10,
+              height: 2,
               child: Container(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
@@ -67,7 +67,7 @@ class SunkenTextField extends StatelessWidget {
               top: 0,
               left: 0,
               bottom: 0,
-              width: 10,
+              width: 2,
               child: Container(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
@@ -87,7 +87,7 @@ class SunkenTextField extends StatelessWidget {
               bottom: 0,
               left: 0,
               right: 0,
-              height: 8,
+              height: 2,
               child: Container(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
@@ -108,7 +108,7 @@ class SunkenTextField extends StatelessWidget {
               top: 0,
               right: 0,
               bottom: 0,
-              width: 8,
+              width: 2,
               child: Container(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(

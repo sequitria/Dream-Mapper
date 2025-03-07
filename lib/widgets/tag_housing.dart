@@ -11,15 +11,10 @@ class TagHousing extends StatefulWidget {
 class _TagHousingState extends State<TagHousing> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          widget.tagHouseName,
-          style: TextStyle(
-            color: Colors.white,
-          ),
-        ),
-      ],
+    return Container(
+      child: Row(
+        
+      ),
     );
   }
 }

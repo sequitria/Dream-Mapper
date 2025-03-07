@@ -67,11 +67,23 @@ class JournalServices {
     return journalList;
   }
 
-  Future<Journal?> getNewestJournal() async {
-    final journalList = await getAllJournals();
-    // Greatest ID will be FIRST as the previous function sorts id from greatest to least
-    return journalList.isNotEmpty ? journalList.first : null;
+  // READ - Get the latest 20 Journals
+  Future<List<Journal>> getFirstTwentyJournals() async {
+    final journalList = await isar.journals
+        .filter()
+        .updatedAtLessThan(DateTime.now())
+        .sortByUpdatedAtDesc()
+        .limit(20)
+        .findAll();
+    return journalList;
   }
+
+  // READ - Get the latest Journal
+  // Future<Journal?> getNewestJournal() async {
+  //   final journalList = await getAllJournals();
+  //   // Greatest ID will be FIRST as the previous function sorts id from greatest to least
+  //   return journalList.isNotEmpty ? journalList.first : null;
+  // }
 
   // READ - Get a specific journal by ID
   Future<Journal?> getJournalById(int id) async {
@@ -84,6 +96,18 @@ class JournalServices {
       final journal = await isar.journals.get(journalId);
       if (journal != null) {
         journal.date = newDate;
+        journal.updatedAt = DateTime.now();
+        await isar.journals.put(journal);
+      }
+    });
+  }
+
+  // UPDATE - title
+  Future<void> updateJournalTitle(int journalId, String title) async {
+    await isar.writeTxn(() async {
+      final journal = await isar.journals.get(journalId);
+      if (journal != null) {
+        journal.journalTitle = title;
         journal.updatedAt = DateTime.now();
         await isar.journals.put(journal);
       }
@@ -198,6 +222,28 @@ class JournalServices {
         await isar.journals.put(journal);
       }
     });
+  }
+
+  // GET - all dream tags for a single journal
+  Future<List<DreamTag>> getAllDreamTags(int journalId) async {
+    final journal = await isar.journals.get(journalId);
+
+    if (journal != null) {
+      await journal.dreamTags.load();
+      return journal.dreamTags.toList();
+    } else {
+      return [];
+    }
+  }
+
+  Future<List<MapTag>> getAllMapTags(int journalId) async {
+    final journal = await isar.journals.get(journalId);
+
+    if (journal != null) {
+      await journal.mapTags.load();
+      return journal.mapTags.toList();
+    }
+    return [];
   }
 
   // UPDATE - Remove a dream tag -> backlink is auto-updated

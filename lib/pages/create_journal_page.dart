@@ -4,7 +4,7 @@ import 'package:dream_mapper/services/journal_editing_controller.dart';
 import 'package:dream_mapper/services/journal_services.dart';
 import 'package:dream_mapper/util/single_date_picker.dart';
 import 'package:dream_mapper/util/sunken_text_field.dart';
-import 'package:dream_mapper/util/tag_housing.dart';
+import 'package:dream_mapper/widgets/dream_tag_containment.dart';
 import 'package:flutter/material.dart';
 
 class CreateJournalPage extends StatefulWidget {
@@ -45,16 +45,6 @@ class _CreateJournalPageState extends State<CreateJournalPage> {
 
       child: Stack(
         children: [
-          // Backdrop with blur effect
-          Positioned.fill(
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 4, sigmaY: 4),
-              child: Container(
-                color: const Color.fromARGB(221, 0, 0, 0),
-              ),
-            ),
-          ),
-
           // Main content
           Scaffold(
             backgroundColor: const Color.fromARGB(255, 15, 14, 14),
@@ -68,7 +58,9 @@ class _CreateJournalPageState extends State<CreateJournalPage> {
                 return
                   Text(
                     value,
-                    style: TextStyle(color: theme.colorScheme.primary),
+                    style: TextStyle(
+                      color: theme.colorScheme.primary,
+                      ),
                   );
                 },
               ),
@@ -122,7 +114,7 @@ class _CreateJournalPageState extends State<CreateJournalPage> {
                     SunkenTextField(
                       controller: _controller.titleController,
                       labelText: "Title",
-                      hintText: "Make this title memorable ;)",
+                      hintText: "Make a memorable title :)",
                       minLines: 1,
                       maxLines: null,
                       backgroundColor: Color(0xFF121212), // Very dark gray
@@ -143,7 +135,7 @@ class _CreateJournalPageState extends State<CreateJournalPage> {
                     ),
 
                     SizedBox(height: 40),
-                    TagHousing(tagHouseName: "Dream Tags"),
+                    //DreamTagContainment(),
                     SizedBox(height: 40),
 
                     SunkenTextField(
@@ -157,7 +149,7 @@ class _CreateJournalPageState extends State<CreateJournalPage> {
                     ),
 
                     SizedBox(height: 40),
-                    TagHousing(tagHouseName: "Map Tags"),
+                    //TagHousing(tagHouseName: "Map Tags"),
                     SizedBox(height: 100),
                   ],
                 ),
