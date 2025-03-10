@@ -10,4 +10,9 @@ class JournalDisplayDataController {
   Future<List<Journal>> getLatestTwentyJournals() {
     return _journalService.getFirstTwentyJournals();
   }
+
+  Stream<bool> watchJournalCreation(){
+    // this maps each void event to true
+    return _journalService.newJournalCreated().map((voidEvent) => true);
+  }
 }

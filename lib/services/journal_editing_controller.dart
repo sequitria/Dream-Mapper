@@ -129,7 +129,7 @@ class JournalEditingController {
     isSaving.value = true;
 
     // Set a new timer
-    _saveDebounceTimer = Timer(Duration(milliseconds: 800), () {
+    _saveDebounceTimer = Timer(Duration(milliseconds: 300), () {
       // Perform the save
       saveFunction();
 

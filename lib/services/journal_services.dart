@@ -78,6 +78,7 @@ class JournalServices {
     return journalList;
   }
 
+  // STREAM - Lazily watch for new journals being created
   Stream<void> newJournalCreated() {
     final newJournalCreated = isar.journals.watchLazy(fireImmediately: true);
     return newJournalCreated;
