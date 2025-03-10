@@ -23,8 +23,8 @@ class JournalPreviewCard extends StatelessWidget {
     List<String> mapTagNames = [];
 
     // This would need to be implemented based on your data structure
-    // We'll assume these are empty for now
-
+    // Assume these are empty for now
+    
     return GestureDetector(
       onTap: onTap,
       child: Card(

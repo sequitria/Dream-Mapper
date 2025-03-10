@@ -2,16 +2,21 @@ import 'package:dream_mapper/services/journal_display_data_controller.dart';
 import 'package:dream_mapper/util/journal_preview_card.dart.dart';
 import 'package:flutter/material.dart';
 
-class JournalScroll extends StatelessWidget {
+class JournalScroll extends StatefulWidget {
   final JournalDisplayDataController controller;
   final Function(int)? onPageChanged;
-
+  
   const JournalScroll({
     super.key,
     required this.controller,
     this.onPageChanged,
   });
+  
+  @override
+  State<JournalScroll> createState() => _JournalScrollState();
+}
 
+class _JournalScrollState extends State<JournalScroll> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -30,24 +35,22 @@ class JournalScroll extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              
             ],
           ),
         ),
-
-        // Page indicator dots will be here if needed
-
+        
+                
         // Journal previews
         Expanded(
           child: FutureBuilder(
-            future: controller.getLatestTwentyJournals(),
+            future: widget.controller.getLatestTwentyJournals(),
             builder: (context, snapshot) {
               // Show loading when waiting
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
                     child: CircularProgressIndicator.adaptive());
               }
-
+              
               // Handle error gracefully
               if (snapshot.hasError) {
                 return Center(
@@ -57,7 +60,7 @@ class JournalScroll extends StatelessWidget {
                   ),
                 );
               }
-
+              
               // Show this when no data available
               final journals = snapshot.data ?? [];
               if (journals.isEmpty) {
@@ -84,12 +87,12 @@ class JournalScroll extends StatelessWidget {
                   ),
                 );
               }
-
+              
               // Page view of journal previews
               return PageView.builder(
                 controller: PageController(viewportFraction: 0.9),
                 itemCount: journals.length,
-                onPageChanged: onPageChanged,
+                onPageChanged: widget.onPageChanged,
                 itemBuilder: (context, index) {
                   final journal = journals[index];
                   return Padding(

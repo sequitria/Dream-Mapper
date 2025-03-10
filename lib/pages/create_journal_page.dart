@@ -1,10 +1,8 @@
 import 'dart:async';
-import 'dart:ui';
 import 'package:dream_mapper/services/journal_editing_controller.dart';
 import 'package:dream_mapper/services/journal_services.dart';
 import 'package:dream_mapper/util/single_date_picker.dart';
 import 'package:dream_mapper/util/sunken_text_field.dart';
-import 'package:dream_mapper/widgets/dream_tag_containment.dart';
 import 'package:flutter/material.dart';
 
 class CreateJournalPage extends StatefulWidget {

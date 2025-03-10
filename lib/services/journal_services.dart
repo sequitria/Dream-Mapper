@@ -78,6 +78,11 @@ class JournalServices {
     return journalList;
   }
 
+  Stream<void> newJournalCreated() {
+    final newJournalCreated = isar.journals.watchLazy(fireImmediately: true);
+    return newJournalCreated;
+  }
+
   // READ - Get the latest Journal
   // Future<Journal?> getNewestJournal() async {
   //   final journalList = await getAllJournals();
