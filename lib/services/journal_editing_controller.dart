@@ -11,6 +11,7 @@ class JournalEditingController {
 
   // The current journal thats being edited
   Journal? _currentJournal;
+  Journal? get currentJournal => _currentJournal;
 
   // Text controllers
   final TextEditingController dreamController = TextEditingController();
