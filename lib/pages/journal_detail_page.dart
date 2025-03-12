@@ -83,13 +83,22 @@ class _JournalDetailPageState extends State<JournalDetailPage>
           elevation: 0,
           surfaceTintColor: Colors.transparent,
           systemOverlayStyle: SystemUiOverlayStyle.light,
-          leading: _buildAppBarButton(
-            icon: Icons.arrow_back_ios_new,
-            onPressed: () async {
-              await _controller.deleteIfEmpty();
-              if (context.mounted) {
-                Navigator.of(context).pop();
-              }
+          leading: ValueListenableBuilder<bool>(
+            valueListenable: _controller.isSaving,
+            builder: (context, isSaving, _) {
+              return _buildAppBarButton(
+                icon: Icons.arrow_back_ios_new,
+                onPressed: isSaving
+                    ? () {}
+                    : () {
+                        _controller.isSaving.value = true;
+                        _controller.deleteIfEmpty().then((_) {
+                          if (context.mounted) {
+                            Navigator.of(context).pop();
+                          }
+                        });
+                      },
+              );
             },
           ),
           title: ValueListenableBuilder(
@@ -316,15 +325,27 @@ class _JournalDetailPageState extends State<JournalDetailPage>
             ],
           ),
         ),
-        floatingActionButton: GlowingFAB(
-          onPressed: () {
-            // Save and return to previous screen
-            _controller.deleteIfEmpty();
-            Navigator.of(context).pop();
-          },
-          label: "SAVE JOURNAL",
-          glowColor: const Color(0xFFB24BF3),
-        ),
+        floatingActionButton: ValueListenableBuilder<bool>(
+            valueListenable: _controller.isSaving,
+            builder: (context, isSaving, _) {
+              return GlowingFAB(
+                onPressed: isSaving
+                    ? () {}
+                    : () {
+                        // Set saving state to prevent further taps
+                        _controller.isSaving.value = true;
+                        // Await the async operation
+                        _controller.deleteIfEmpty().then((_) {
+                          // Only navigate if context is still mounted
+                          if (context.mounted) {
+                            Navigator.of(context).pop();
+                          }
+                        });
+                      },
+                label: "SAVE JOURNAL",
+                glowColor: const Color(0xFFB24BF3),
+              );
+            }),
       ),
     );
   }
