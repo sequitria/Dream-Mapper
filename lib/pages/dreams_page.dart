@@ -1,5 +1,4 @@
 import 'package:dream_mapper/util/my_drawer.dart';
-import 'package:dream_mapper/widgets/nav_bar.dart';
 import 'package:flutter/material.dart';
 
 class DreamsPage extends StatefulWidget {
@@ -18,7 +17,6 @@ class _DreamsPageState extends State<DreamsPage> {
       body: Center(
         child: Text("DreamPage"),
       ),
-      bottomNavigationBar: SafeArea(child: NavBar()),
     );
   }
 }

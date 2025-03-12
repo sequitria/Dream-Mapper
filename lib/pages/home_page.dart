@@ -2,7 +2,6 @@ import 'package:dream_mapper/pages/create_journal_page.dart';
 import 'package:dream_mapper/services/journal_display_data_controller.dart';
 import 'package:dream_mapper/services/journal_services.dart';
 import 'package:dream_mapper/util/my_drawer.dart';
-import 'package:dream_mapper/widgets/nav_bar.dart';
 import 'package:dream_mapper/widgets/calendar.dart';
 import 'package:dream_mapper/widgets/journal_scroll.dart';
 import 'package:flutter/material.dart';

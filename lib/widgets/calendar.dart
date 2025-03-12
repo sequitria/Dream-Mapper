@@ -51,13 +51,16 @@ class _CalendarState extends State<Calendar> {
             fontWeight: FontWeight.w400,
           ),
         ),
-        leading: GestureDetector(
-          onTap: widget.openDrawer,
-          child: Icon(Icons.menu),
+        leading: Padding(
+          padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+          child: GestureDetector(
+            onTap: widget.openDrawer,
+            child: Icon(Icons.menu),
+          ),
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 25),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
         child: SafeArea(
           child: Column(
             children: [

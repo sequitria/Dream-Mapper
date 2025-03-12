@@ -37,7 +37,7 @@ class _JournalScrollState extends State<JournalScroll> {
           children: [
             // Section title
             Padding(
-              padding: const EdgeInsets.fromLTRB(37, 8, 35, 12),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 2),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -103,13 +103,13 @@ class _JournalScrollState extends State<JournalScroll> {
                   
                   // Page view of journal previews
                   return PageView.builder(
-                    controller: PageController(viewportFraction: 0.9),
+                    controller: PageController(viewportFraction: 0.95),
                     itemCount: journals.length,
                     onPageChanged: widget.onPageChanged,
                     itemBuilder: (context, index) {
                       final journal = journals[index];
                       return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 6.0),
+                        padding: const EdgeInsets.symmetric(horizontal: 1.0),
                         child: JournalPreviewCard(journal: journal),
                       );
                     },

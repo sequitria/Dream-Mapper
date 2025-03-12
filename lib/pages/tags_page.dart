@@ -1,5 +1,4 @@
 import 'package:dream_mapper/util/my_drawer.dart';
-import 'package:dream_mapper/widgets/nav_bar.dart';
 import 'package:flutter/material.dart';
 
 class TagsPage extends StatefulWidget {
@@ -18,7 +17,6 @@ class _TagsPageState extends State<TagsPage> {
       body: Center(
         child: Text("TagsPage"),
       ),
-      bottomNavigationBar: SafeArea(child: NavBar()),
     );
   }
 }
