@@ -1,4 +1,4 @@
-import 'package:dream_mapper/pages/create_journal_page.dart';
+import 'package:dream_mapper/pages/journal_detail_page.dart';
 import 'package:dream_mapper/services/journal_display_data_controller.dart';
 import 'package:dream_mapper/services/journal_services.dart';
 import 'package:dream_mapper/util/my_drawer.dart';
@@ -58,12 +58,12 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-// Creates the route for create journal page
+// Creates the route for journal detail page
 Route _createRoute() {
   return PageRouteBuilder(
     opaque: false,
     pageBuilder: (context, animation, secondaryAnimation) =>
-        CreateJournalPage(),
+        JournalDetailPage(),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       return FadeTransition(
         opacity: animation,

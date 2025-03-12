@@ -60,6 +60,7 @@ class JournalEditingController {
 
       dreamController.text = _currentJournal!.dreamDescription;
       mapController.text = _currentJournal!.mapDescription ?? '';
+      titleController.text = _currentJournal!.journalTitle;
 
       // Reattach listeners
       dreamController.addListener(_onDreamTextChanged);
@@ -130,7 +131,7 @@ class JournalEditingController {
     isSaving.value = true;
 
     // Set a new timer
-    _saveDebounceTimer = Timer(Duration(milliseconds: 300), () {
+    _saveDebounceTimer = Timer(Duration(milliseconds: 200), () {
       // Perform the save
       saveFunction();
 

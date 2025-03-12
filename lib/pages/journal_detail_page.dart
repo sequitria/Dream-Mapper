@@ -8,19 +8,21 @@ import 'package:dream_mapper/util/glowing_fab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class CreateJournalPage extends StatefulWidget {
-  const CreateJournalPage({super.key});
+class JournalDetailPage extends StatefulWidget {
+  final int? journalId;
+  const JournalDetailPage({super.key, this.journalId});
 
   @override
-  State<CreateJournalPage> createState() => _CreateJournalPageState();
+  State<JournalDetailPage> createState() => _JournalDetailPageState();
 }
 
-class _CreateJournalPageState extends State<CreateJournalPage> with SingleTickerProviderStateMixin {
+class _JournalDetailPageState extends State<JournalDetailPage>
+    with SingleTickerProviderStateMixin {
   late JournalEditingController _controller;
   late AnimationController _animationController;
   late Animation<double> _fadeAnimation;
   String _heroTag = '';
-  
+
   // Focus nodes for text fields
   final FocusNode _titleFocus = FocusNode();
   final FocusNode _dreamFocus = FocusNode();
@@ -38,8 +40,13 @@ class _CreateJournalPageState extends State<CreateJournalPage> with SingleTicker
       parent: _animationController,
       curve: Curves.easeOut,
     );
-    _initializeJournal();
-    
+
+    if (widget.journalId != null) {
+      _loadExistingJournal(widget.journalId!);
+    } else {
+      _initializeJournal();
+    }
+
     // Start entrance animation
     _animationController.forward();
   }
@@ -52,6 +59,11 @@ class _CreateJournalPageState extends State<CreateJournalPage> with SingleTicker
         _heroTag = 'journal-${_controller.currentJournal!.id}';
       });
     }
+  }
+
+  Future<void> _loadExistingJournal(int journalId) async {
+    await _controller.loadJournal(journalId);
+    _heroTag = 'journal-$journalId';
   }
 
   @override
@@ -150,7 +162,7 @@ class _CreateJournalPageState extends State<CreateJournalPage> with SingleTicker
                   ),
                 ),
               ),
-            
+
               // Multiple ambient glow effects for depth
               Positioned(
                 top: -150,
@@ -198,7 +210,8 @@ class _CreateJournalPageState extends State<CreateJournalPage> with SingleTicker
                     shape: BoxShape.circle,
                     boxShadow: [
                       BoxShadow(
-                        color: const Color.fromARGB(255, 230, 220, 188).withValues(alpha: 0.06),
+                        color: const Color.fromARGB(255, 230, 220, 188)
+                            .withValues(alpha: 0.06),
                         blurRadius: 150,
                         spreadRadius: 50,
                       ),
@@ -206,7 +219,7 @@ class _CreateJournalPageState extends State<CreateJournalPage> with SingleTicker
                   ),
                 ),
               ),
-              
+
               // Subtle noise overlay for texture
               Opacity(
                 opacity: 0.02,
@@ -217,7 +230,7 @@ class _CreateJournalPageState extends State<CreateJournalPage> with SingleTicker
                   height: double.infinity,
                 ),
               ),
-            
+
               // Main content with backdrop filter for glass effect
               BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
@@ -232,16 +245,17 @@ class _CreateJournalPageState extends State<CreateJournalPage> with SingleTicker
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const SizedBox(height: 16),
-                            
+
                             // Date Picker
                             GlowingDatePicker(
                               dateNotifier: _controller.journalDate,
-                              onDateChanged: (date) => _controller.updateDate(date),
+                              onDateChanged: (date) =>
+                                  _controller.updateDate(date),
                               glowColor: const Color(0xFFB24BF3),
                             ),
-                            
+
                             const SizedBox(height: 48),
-                            
+
                             // Title Field
                             ElegantTextField(
                               controller: _controller.titleController,
@@ -249,14 +263,16 @@ class _CreateJournalPageState extends State<CreateJournalPage> with SingleTicker
                               labelText: "Title",
                               hintText: "Give your dream a memorable title...",
                               icon: Icons.title,
-                              iconColor: const Color.fromARGB(255, 230, 220, 188),
-                              glowColor: const Color.fromARGB(255, 230, 220, 188),
+                              iconColor:
+                                  const Color.fromARGB(255, 230, 220, 188),
+                              glowColor:
+                                  const Color.fromARGB(255, 230, 220, 188),
                               minLines: 1,
                               maxLines: 2,
                             ),
-                            
+
                             const SizedBox(height: 48),
-                            
+
                             // Dream Description Field
                             ElegantTextField(
                               controller: _controller.dreamController,
@@ -264,14 +280,16 @@ class _CreateJournalPageState extends State<CreateJournalPage> with SingleTicker
                               labelText: "Dream Description",
                               hintText: "Describe your dream in detail...",
                               icon: Icons.cloud,
-                              iconColor: const Color.fromARGB(255, 208, 142, 249),
-                              glowColor: const Color.fromARGB(255, 208, 142, 249),
+                              iconColor:
+                                  const Color.fromARGB(255, 208, 142, 249),
+                              glowColor:
+                                  const Color.fromARGB(255, 208, 142, 249),
                               minLines: 8,
                               maxLines: null,
                             ),
-                            
+
                             const SizedBox(height: 48),
-                            
+
                             // Map Description Field
                             ElegantTextField(
                               controller: _controller.mapController,
@@ -279,12 +297,14 @@ class _CreateJournalPageState extends State<CreateJournalPage> with SingleTicker
                               labelText: "Map Description",
                               hintText: "Describe the scene or setting...",
                               icon: Icons.map,
-                              iconColor: const Color.fromARGB(255, 93, 231, 243),
-                              glowColor: const Color.fromARGB(255, 93, 231, 243),
+                              iconColor:
+                                  const Color.fromARGB(255, 93, 231, 243),
+                              glowColor:
+                                  const Color.fromARGB(255, 93, 231, 243),
                               minLines: 8,
                               maxLines: null,
                             ),
-                            
+
                             const SizedBox(height: 50),
                           ],
                         ),

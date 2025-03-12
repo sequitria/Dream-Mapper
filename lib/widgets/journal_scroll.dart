@@ -1,3 +1,4 @@
+import 'package:dream_mapper/pages/journal_detail_page.dart';
 import 'package:dream_mapper/services/journal_display_data_controller.dart';
 import 'package:dream_mapper/util/journal_preview_card.dart.dart';
 import 'package:flutter/material.dart';
@@ -18,14 +19,14 @@ class JournalScroll extends StatefulWidget {
 
 class _JournalScrollState extends State<JournalScroll> {
   late Stream<bool> _journalStream;
-  
+
   @override
   void initState() {
     super.initState();
     // Get the stream once and store it
     _journalStream = widget.controller.watchJournalCreation();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     // Use StreamBuilder to rebuild UI when stream emits a value
@@ -51,7 +52,7 @@ class _JournalScrollState extends State<JournalScroll> {
                 ],
               ),
             ),
-            
+
             // Journal previews
             Expanded(
               child: FutureBuilder(
@@ -63,7 +64,7 @@ class _JournalScrollState extends State<JournalScroll> {
                     return const Center(
                         child: CircularProgressIndicator.adaptive());
                   }
-                  
+
                   // Handle error gracefully
                   if (snapshot.hasError) {
                     return Center(
@@ -73,7 +74,7 @@ class _JournalScrollState extends State<JournalScroll> {
                       ),
                     );
                   }
-                  
+
                   // Show this when no data available
                   final journals = snapshot.data ?? [];
                   if (journals.isEmpty) {
@@ -100,7 +101,7 @@ class _JournalScrollState extends State<JournalScroll> {
                       ),
                     );
                   }
-                  
+
                   // Page view of journal previews
                   return PageView.builder(
                     controller: PageController(viewportFraction: 0.95),
@@ -110,7 +111,12 @@ class _JournalScrollState extends State<JournalScroll> {
                       final journal = journals[index];
                       return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 1.0),
-                        child: JournalPreviewCard(journal: journal),
+                        child: JournalPreviewCard(
+                          journal: journal,
+                          onTap: () {
+                            Navigator.of(context).push(_createRoute(journal.id));
+                          },
+                        ),
                       );
                     },
                   );
@@ -123,3 +129,19 @@ class _JournalScrollState extends State<JournalScroll> {
     );
   }
 }
+
+// Creates the route for journal detail page
+Route _createRoute(int journalId) {
+  return PageRouteBuilder(
+    opaque: false,
+    pageBuilder: (context, animation, secondaryAnimation) =>
+        JournalDetailPage(journalId: journalId,),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      return FadeTransition(
+        opacity: animation,
+        child: child,
+      );
+    },
+  );
+}
+
