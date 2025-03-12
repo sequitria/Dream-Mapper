@@ -1,10 +1,12 @@
+import 'package:dream_mapper/pages/create_journal_page.dart';
 import 'package:dream_mapper/services/journal_display_data_controller.dart';
 import 'package:dream_mapper/services/journal_services.dart';
-import 'package:dream_mapper/util/floating_buttons.dart';
+import 'package:dream_mapper/util/my_drawer.dart';
 import 'package:dream_mapper/widgets/nav_bar.dart';
 import 'package:dream_mapper/widgets/calendar.dart';
 import 'package:dream_mapper/widgets/journal_scroll.dart';
 import 'package:flutter/material.dart';
+import 'package:line_icons/line_icons.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -19,25 +21,55 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //backgroundColor: const Color.fromARGB(221, 26, 2, 2),
-      body: Column(
-        children: [
-          Expanded(flex: 5, child: Calendar()),
-          Expanded(
-            flex: 3,
-            child: JournalScroll(controller: _controller)
-          ),
-    
-          // SizedBox(
-          //   height: 100,
-          // )
-        ],
-      ),
-      // Make a journal viewer
-
-      floatingActionButton: FloatingButtons(),
-      bottomNavigationBar: SafeArea(child: NavBar(),
+      drawer: MyDrawer(),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Builder(builder: (context) {
+              return Expanded(
+                  flex: 5,
+                  child: Calendar(openDrawer: () {
+                    Scaffold.of(context).openDrawer();
+                  }));
+            }),
+            Expanded(flex: 3, child: JournalScroll(controller: _controller)),
+            Expanded(
+              flex: 1,
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 40.0),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: FloatingActionButton.extended(
+                      heroTag: 'create_journal_button',
+                      icon: const Icon(LineIcons.feather),
+                      label: const Text('NEW JOURNAL'),
+                      onPressed: () {
+                        Navigator.of(context).push(_createRoute());
+                      },
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
+}
+
+// Creates the route for create journal page
+Route _createRoute() {
+  return PageRouteBuilder(
+    opaque: false,
+    pageBuilder: (context, animation, secondaryAnimation) =>
+        CreateJournalPage(),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      return FadeTransition(
+        opacity: animation,
+        child: child,
+      );
+    },
+  );
 }

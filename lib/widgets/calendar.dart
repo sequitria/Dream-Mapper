@@ -4,7 +4,11 @@ import 'package:flutter/material.dart';
 
 // lib/widgets/calendar.dart
 class Calendar extends StatefulWidget {
-  const Calendar({super.key});
+  final VoidCallback openDrawer;
+  const Calendar({
+    super.key,
+    required this.openDrawer
+  });
 
   @override
   State<Calendar> createState() => _CalendarState();
@@ -38,27 +42,25 @@ class _CalendarState extends State<Calendar> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          '${_calendarService.getMonthName(_currentMonth.month)} ${_currentMonth.year}',
+          style: const TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
+        leading: GestureDetector(
+          onTap: widget.openDrawer,
+          child: Icon(Icons.menu),
+        ),
+      ),
+      body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25),
         child: SafeArea(
           child: Column(
             children: [
-              // MONTH AND YEAR
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      '${_calendarService.getMonthName(_currentMonth.month)} ${_currentMonth.year}',
-                      style: const TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
               // ROW OF WEEKDAYS
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -104,6 +106,7 @@ class _CalendarState extends State<Calendar> {
             ],
           ),
         ),
+      ),
     );
   }
 

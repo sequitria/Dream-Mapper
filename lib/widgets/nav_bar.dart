@@ -1,3 +1,8 @@
+import 'package:dream_mapper/pages/create_journal_page.dart';
+import 'package:dream_mapper/pages/dreams_page.dart';
+import 'package:dream_mapper/pages/home_page.dart';
+import 'package:dream_mapper/pages/insights_page.dart';
+import 'package:dream_mapper/pages/tags_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
@@ -20,18 +25,33 @@ class NavBar extends StatefulWidget {
 class _NavBarState extends State<NavBar> {
   late int _selectedIndex;
 
-  // Color palette
+  // Color palette (added a color for the Add button)
   final List<Color> _tabColors = [
-    const Color(0xFFC4A287),
-    const Color(0xFF9E7BB5),
-    const Color(0xFF7294AF),
-    const Color(0xFF3AA39F),
+    const Color(0xFFC4A287),  // Home
+    const Color(0xFF9E7BB5),  // Dreams
+    const Color(0xFF4CAF50),  // Add (Green color)
+    const Color(0xFF7294AF),  // Tags
+    const Color(0xFF3AA39F),  // Insights
   ];
 
   @override
   void initState() {
     super.initState();
     _selectedIndex = widget.initialIndex;
+  }
+
+  // Create route for the journal creation page
+  Route _createJournalRoute() {
+    return PageRouteBuilder(
+      opaque: false,
+      pageBuilder: (context, animation, secondaryAnimation) => const CreateJournalPage(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        return FadeTransition(
+          opacity: animation,
+          child: child,
+        );
+      },
+    );
   }
 
   @override
@@ -65,25 +85,80 @@ class _NavBarState extends State<NavBar> {
         tabs: [
           // Home tab
           _buildTab(0, LineIcons.home, 'Home'),
+          
           // Dreams tab
           _buildTab(1, LineIcons.cloudversify, 'Dreams'),
+          
+          // Add button (centered, special)
+          _buildAddButton(),
+          
           // Tags tab
-          _buildTab(2, LineIcons.tags, 'Tags'),
+          _buildTab(3, LineIcons.tags, 'Tags'),
+          
           // Insights tab
-          _buildTab(3, LineIcons.infinity, 'Insights'),
+          _buildTab(4, LineIcons.infinity, 'Insights'),
         ],
-        selectedIndex: _selectedIndex,
+        selectedIndex: _selectedIndex == 2 ? 0 : _selectedIndex, // Don't select Add button
         onTabChange: (index) {
+          HapticFeedback.lightImpact();
+          
+          // Handle Add button separately
+          if (index == 2) {
+            Navigator.of(context).push(_createJournalRoute());
+            return; // Don't update selectedIndex for Add button
+          }
+          
           setState(() {
             _selectedIndex = index;
           });
-          HapticFeedback.lightImpact();
+          
+          // Handle navigation for tabs
+          _handleNavigation(context, index);
+          
+          // Call onTabChange callback if provided
           if (widget.onTabChange != null) {
             widget.onTabChange!(index);
           }
         },
       ),
     );
+  }
+
+  void _handleNavigation(BuildContext context, int index) {
+    switch (index) {
+      case 0: // Home
+        // Navigate to HomePage and clear the stack
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => const HomePage()),
+          (route) => false,
+        );
+        break;
+      // Add other tab navigation handlers as needed
+      // case 1: // Dreams tab
+      case 1: // Home
+        // Navigate to HomePage and clear the stack
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => const DreamsPage()),
+          (route) => false,
+        );
+        break;
+      // case 3: // Tags tab
+      case 3: // Home
+        // Navigate to HomePage and clear the stack
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => const TagsPage()),
+          (route) => false,
+        );
+        break;
+      // case 4: // Insights tab
+      case 4: // Home
+        // Navigate to HomePage and clear the stack
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (context) => const InsightsPage()),
+          (route) => false,
+        );
+        break;
+    }
   }
 
   GButton _buildTab(int index, IconData icon, String text) {
@@ -98,6 +173,18 @@ class _NavBarState extends State<NavBar> {
       iconColor: iconColor,
       iconActiveColor: Colors.white,
       textColor: textColor,
+    );
+  }
+
+  // Special Add button with different styling
+  GButton _buildAddButton() {
+    return GButton(
+      icon: Icons.add_circle,
+      text: 'Add',
+      iconColor: _tabColors[2],
+      iconActiveColor: Colors.white,
+      textColor: _tabColors[2],
+      iconSize: 30, // Larger icon
     );
   }
 }
