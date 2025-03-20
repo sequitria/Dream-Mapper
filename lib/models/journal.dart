@@ -16,9 +16,8 @@ class Journal {
 
   // Dream content
   late String dreamDescription;
-  double? dreamVividnessScore;
-  String? dominantSense;
-  String? lucidityLevel; // How concious was it?
+  double? dreamVividnessScore; // How much clarity did it have?
+  int? lucidityLevel; // How concious was it?
 
   // Map content
   String? mapDescription;

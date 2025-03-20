@@ -5,6 +5,7 @@ import 'package:dream_mapper/services/journal_services.dart';
 import 'package:dream_mapper/util/elegant_text_field.dart';
 import 'package:dream_mapper/util/glowing_date_picker.dart';
 import 'package:dream_mapper/util/glowing_fab.dart';
+import 'package:dream_mapper/widgets/tag_containment.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -297,7 +298,16 @@ class _JournalDetailPageState extends State<JournalDetailPage>
                               maxLines: null,
                             ),
 
-                            const SizedBox(height: 48),
+                            const SizedBox(height: 24),
+                            TagContainment(
+                              tagType: TagType.dream,
+                              controller: _controller,
+                              glowColor: const Color.fromARGB(255, 208, 142, 249),
+                            ),
+
+                            const SizedBox(height: 22),
+
+
 
                             // Map Description Field
                             ElegantTextField(

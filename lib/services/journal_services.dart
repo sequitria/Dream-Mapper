@@ -230,8 +230,20 @@ class JournalServices {
     });
   }
 
+  // Get - all dream tags
+  Future<List<DreamTag>> getAllDreamTagsAlphabetically() async {
+    final dreamTags = await isar.dreamTags.where().sortByName().findAll();
+    return dreamTags;
+  }
+
+  // Get - all map tags
+  Future<List<MapTag>> getAllMapTagsAlphabetically() async {
+    final mapTags = await isar.mapTags.where().sortByName().findAll();
+    return mapTags;
+  }
+
   // GET - all dream tags for a single journal
-  Future<List<DreamTag>> getAllDreamTags(int journalId) async {
+  Future<List<DreamTag>> getAllDreamTagsForJournal(int journalId) async {
     final journal = await isar.journals.get(journalId);
 
     if (journal != null) {
@@ -242,7 +254,8 @@ class JournalServices {
     }
   }
 
-  Future<List<MapTag>> getAllMapTags(int journalId) async {
+  // Get - all map tags for a journal
+  Future<List<MapTag>> getAllMapTagsForJournal(int journalId) async {
     final journal = await isar.journals.get(journalId);
 
     if (journal != null) {
@@ -281,6 +294,18 @@ class JournalServices {
         }
       }
     });
+  }
+
+  // STREAM - Lazily watch for new dream tags being created
+  Stream<bool> newDreamTagCreated() {
+    final newDreamTagCreated = isar.dreamTags.watchLazy(fireImmediately: true);
+    return newDreamTagCreated.map((voidEvent) => true);
+  }
+
+  // STREAM - Lazily watch for new journals being created
+  Stream<bool> newMapTagCreated() {
+    final newMapTagCreated = isar.mapTags.watchLazy(fireImmediately: true);
+    return newMapTagCreated.map((voidEvent) => true);
   }
 
   // DELETE - Delete a journal

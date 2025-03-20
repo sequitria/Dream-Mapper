@@ -180,19 +180,22 @@ class JournalEditingController {
     await _journalService.addMapTagToMap(_currentJournal!.id, tagName);
   }
 
-  // Future<List<DreamTag>> getDreamTags() async {
-  //   return await _journalService.getAllDreamTags(_currentJournal!.id);
-  // }
+  // Get all dream tags created
+  Future<List<DreamTag>> getAllDreamTags() async {
+    return _journalService.getAllDreamTagsAlphabetically();
+  }
+
+  // Get all map tags created
+  Future<List<MapTag>> getAllMapTags() async {
+    return _journalService.getAllMapTagsAlphabetically();
+  }
 
   // Get dream tags for a single journal
-  List<DreamTag> getDreamTags() {
-    _journalService.getAllDreamTags(_currentJournal!.id).then((data) {
-      return data;
-    });
-    return [];
+  Future<List<DreamTag>> getDreamTags() async {
+    return await _journalService.getAllDreamTagsForJournal(_currentJournal!.id);
   }
 
   Future<List<MapTag>> getMapTags() async {
-    return await _journalService.getAllMapTags(_currentJournal!.id);
+    return await _journalService.getAllMapTagsForJournal(_currentJournal!.id);
   }
 }

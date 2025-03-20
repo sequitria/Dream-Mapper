@@ -43,7 +43,7 @@ class _JournalScrollState extends State<JournalScroll> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text(
-                    'Recent Dreams',
+                    'Recently Updated',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w600,

@@ -27,38 +27,33 @@ const JournalSchema = CollectionSchema(
       name: r'date',
       type: IsarType.dateTime,
     ),
-    r'dominantSense': PropertySchema(
-      id: 2,
-      name: r'dominantSense',
-      type: IsarType.string,
-    ),
     r'dreamDescription': PropertySchema(
-      id: 3,
+      id: 2,
       name: r'dreamDescription',
       type: IsarType.string,
     ),
     r'dreamVividnessScore': PropertySchema(
-      id: 4,
+      id: 3,
       name: r'dreamVividnessScore',
       type: IsarType.double,
     ),
     r'journalTitle': PropertySchema(
-      id: 5,
+      id: 4,
       name: r'journalTitle',
       type: IsarType.string,
     ),
     r'lucidityLevel': PropertySchema(
-      id: 6,
+      id: 5,
       name: r'lucidityLevel',
-      type: IsarType.string,
+      type: IsarType.long,
     ),
     r'mapDescription': PropertySchema(
-      id: 7,
+      id: 6,
       name: r'mapDescription',
       type: IsarType.string,
     ),
     r'updatedAt': PropertySchema(
-      id: 8,
+      id: 7,
       name: r'updatedAt',
       type: IsarType.dateTime,
     )
@@ -96,20 +91,8 @@ int _journalEstimateSize(
   Map<Type, List<int>> allOffsets,
 ) {
   var bytesCount = offsets.last;
-  {
-    final value = object.dominantSense;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
   bytesCount += 3 + object.dreamDescription.length * 3;
   bytesCount += 3 + object.journalTitle.length * 3;
-  {
-    final value = object.lucidityLevel;
-    if (value != null) {
-      bytesCount += 3 + value.length * 3;
-    }
-  }
   {
     final value = object.mapDescription;
     if (value != null) {
@@ -127,13 +110,12 @@ void _journalSerialize(
 ) {
   writer.writeDateTime(offsets[0], object.createdAt);
   writer.writeDateTime(offsets[1], object.date);
-  writer.writeString(offsets[2], object.dominantSense);
-  writer.writeString(offsets[3], object.dreamDescription);
-  writer.writeDouble(offsets[4], object.dreamVividnessScore);
-  writer.writeString(offsets[5], object.journalTitle);
-  writer.writeString(offsets[6], object.lucidityLevel);
-  writer.writeString(offsets[7], object.mapDescription);
-  writer.writeDateTime(offsets[8], object.updatedAt);
+  writer.writeString(offsets[2], object.dreamDescription);
+  writer.writeDouble(offsets[3], object.dreamVividnessScore);
+  writer.writeString(offsets[4], object.journalTitle);
+  writer.writeLong(offsets[5], object.lucidityLevel);
+  writer.writeString(offsets[6], object.mapDescription);
+  writer.writeDateTime(offsets[7], object.updatedAt);
 }
 
 Journal _journalDeserialize(
@@ -145,14 +127,13 @@ Journal _journalDeserialize(
   final object = Journal();
   object.createdAt = reader.readDateTime(offsets[0]);
   object.date = reader.readDateTime(offsets[1]);
-  object.dominantSense = reader.readStringOrNull(offsets[2]);
-  object.dreamDescription = reader.readString(offsets[3]);
-  object.dreamVividnessScore = reader.readDoubleOrNull(offsets[4]);
+  object.dreamDescription = reader.readString(offsets[2]);
+  object.dreamVividnessScore = reader.readDoubleOrNull(offsets[3]);
   object.id = id;
-  object.journalTitle = reader.readString(offsets[5]);
-  object.lucidityLevel = reader.readStringOrNull(offsets[6]);
-  object.mapDescription = reader.readStringOrNull(offsets[7]);
-  object.updatedAt = reader.readDateTime(offsets[8]);
+  object.journalTitle = reader.readString(offsets[4]);
+  object.lucidityLevel = reader.readLongOrNull(offsets[5]);
+  object.mapDescription = reader.readStringOrNull(offsets[6]);
+  object.updatedAt = reader.readDateTime(offsets[7]);
   return object;
 }
 
@@ -168,18 +149,16 @@ P _journalDeserializeProp<P>(
     case 1:
       return (reader.readDateTime(offset)) as P;
     case 2:
-      return (reader.readStringOrNull(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 3:
-      return (reader.readString(offset)) as P;
-    case 4:
       return (reader.readDoubleOrNull(offset)) as P;
-    case 5:
+    case 4:
       return (reader.readString(offset)) as P;
+    case 5:
+      return (reader.readLongOrNull(offset)) as P;
     case 6:
       return (reader.readStringOrNull(offset)) as P;
     case 7:
-      return (reader.readStringOrNull(offset)) as P;
-    case 8:
       return (reader.readDateTime(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -380,155 +359,6 @@ extension JournalQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
-      ));
-    });
-  }
-
-  QueryBuilder<Journal, Journal, QAfterFilterCondition> dominantSenseIsNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNull(
-        property: r'dominantSense',
-      ));
-    });
-  }
-
-  QueryBuilder<Journal, Journal, QAfterFilterCondition>
-      dominantSenseIsNotNull() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(const FilterCondition.isNotNull(
-        property: r'dominantSense',
-      ));
-    });
-  }
-
-  QueryBuilder<Journal, Journal, QAfterFilterCondition> dominantSenseEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'dominantSense',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Journal, Journal, QAfterFilterCondition>
-      dominantSenseGreaterThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        include: include,
-        property: r'dominantSense',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Journal, Journal, QAfterFilterCondition> dominantSenseLessThan(
-    String? value, {
-    bool include = false,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.lessThan(
-        include: include,
-        property: r'dominantSense',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Journal, Journal, QAfterFilterCondition> dominantSenseBetween(
-    String? lower,
-    String? upper, {
-    bool includeLower = true,
-    bool includeUpper = true,
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.between(
-        property: r'dominantSense',
-        lower: lower,
-        includeLower: includeLower,
-        upper: upper,
-        includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Journal, Journal, QAfterFilterCondition> dominantSenseStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'dominantSense',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Journal, Journal, QAfterFilterCondition> dominantSenseEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'dominantSense',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Journal, Journal, QAfterFilterCondition> dominantSenseContains(
-      String value,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'dominantSense',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Journal, Journal, QAfterFilterCondition> dominantSenseMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'dominantSense',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Journal, Journal, QAfterFilterCondition> dominantSenseIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'dominantSense',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<Journal, Journal, QAfterFilterCondition>
-      dominantSenseIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'dominantSense',
-        value: '',
       ));
     });
   }
@@ -953,55 +783,47 @@ extension JournalQueryFilter
   }
 
   QueryBuilder<Journal, Journal, QAfterFilterCondition> lucidityLevelEqualTo(
-    String? value, {
-    bool caseSensitive = true,
-  }) {
+      int? value) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'lucidityLevel',
         value: value,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<Journal, Journal, QAfterFilterCondition>
       lucidityLevelGreaterThan(
-    String? value, {
+    int? value, {
     bool include = false,
-    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.greaterThan(
         include: include,
         property: r'lucidityLevel',
         value: value,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<Journal, Journal, QAfterFilterCondition> lucidityLevelLessThan(
-    String? value, {
+    int? value, {
     bool include = false,
-    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.lessThan(
         include: include,
         property: r'lucidityLevel',
         value: value,
-        caseSensitive: caseSensitive,
       ));
     });
   }
 
   QueryBuilder<Journal, Journal, QAfterFilterCondition> lucidityLevelBetween(
-    String? lower,
-    String? upper, {
+    int? lower,
+    int? upper, {
     bool includeLower = true,
     bool includeUpper = true,
-    bool caseSensitive = true,
   }) {
     return QueryBuilder.apply(this, (query) {
       return query.addFilterCondition(FilterCondition.between(
@@ -1010,76 +832,6 @@ extension JournalQueryFilter
         includeLower: includeLower,
         upper: upper,
         includeUpper: includeUpper,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Journal, Journal, QAfterFilterCondition> lucidityLevelStartsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.startsWith(
-        property: r'lucidityLevel',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Journal, Journal, QAfterFilterCondition> lucidityLevelEndsWith(
-    String value, {
-    bool caseSensitive = true,
-  }) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.endsWith(
-        property: r'lucidityLevel',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Journal, Journal, QAfterFilterCondition> lucidityLevelContains(
-      String value,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.contains(
-        property: r'lucidityLevel',
-        value: value,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Journal, Journal, QAfterFilterCondition> lucidityLevelMatches(
-      String pattern,
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.matches(
-        property: r'lucidityLevel',
-        wildcard: pattern,
-        caseSensitive: caseSensitive,
-      ));
-    });
-  }
-
-  QueryBuilder<Journal, Journal, QAfterFilterCondition> lucidityLevelIsEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.equalTo(
-        property: r'lucidityLevel',
-        value: '',
-      ));
-    });
-  }
-
-  QueryBuilder<Journal, Journal, QAfterFilterCondition>
-      lucidityLevelIsNotEmpty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addFilterCondition(FilterCondition.greaterThan(
-        property: r'lucidityLevel',
-        value: '',
       ));
     });
   }
@@ -1434,18 +1186,6 @@ extension JournalQuerySortBy on QueryBuilder<Journal, Journal, QSortBy> {
     });
   }
 
-  QueryBuilder<Journal, Journal, QAfterSortBy> sortByDominantSense() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'dominantSense', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Journal, Journal, QAfterSortBy> sortByDominantSenseDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'dominantSense', Sort.desc);
-    });
-  }
-
   QueryBuilder<Journal, Journal, QAfterSortBy> sortByDreamDescription() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'dreamDescription', Sort.asc);
@@ -1542,18 +1282,6 @@ extension JournalQuerySortThenBy
   QueryBuilder<Journal, Journal, QAfterSortBy> thenByDateDesc() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'date', Sort.desc);
-    });
-  }
-
-  QueryBuilder<Journal, Journal, QAfterSortBy> thenByDominantSense() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'dominantSense', Sort.asc);
-    });
-  }
-
-  QueryBuilder<Journal, Journal, QAfterSortBy> thenByDominantSenseDesc() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addSortBy(r'dominantSense', Sort.desc);
     });
   }
 
@@ -1656,14 +1384,6 @@ extension JournalQueryWhereDistinct
     });
   }
 
-  QueryBuilder<Journal, Journal, QDistinct> distinctByDominantSense(
-      {bool caseSensitive = true}) {
-    return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'dominantSense',
-          caseSensitive: caseSensitive);
-    });
-  }
-
   QueryBuilder<Journal, Journal, QDistinct> distinctByDreamDescription(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -1685,11 +1405,9 @@ extension JournalQueryWhereDistinct
     });
   }
 
-  QueryBuilder<Journal, Journal, QDistinct> distinctByLucidityLevel(
-      {bool caseSensitive = true}) {
+  QueryBuilder<Journal, Journal, QDistinct> distinctByLucidityLevel() {
     return QueryBuilder.apply(this, (query) {
-      return query.addDistinctBy(r'lucidityLevel',
-          caseSensitive: caseSensitive);
+      return query.addDistinctBy(r'lucidityLevel');
     });
   }
 
@@ -1728,12 +1446,6 @@ extension JournalQueryProperty
     });
   }
 
-  QueryBuilder<Journal, String?, QQueryOperations> dominantSenseProperty() {
-    return QueryBuilder.apply(this, (query) {
-      return query.addPropertyName(r'dominantSense');
-    });
-  }
-
   QueryBuilder<Journal, String, QQueryOperations> dreamDescriptionProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'dreamDescription');
@@ -1753,7 +1465,7 @@ extension JournalQueryProperty
     });
   }
 
-  QueryBuilder<Journal, String?, QQueryOperations> lucidityLevelProperty() {
+  QueryBuilder<Journal, int?, QQueryOperations> lucidityLevelProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'lucidityLevel');
     });
